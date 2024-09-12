@@ -88,11 +88,11 @@ export default {
     },
   },
   mounted() {
-    this.loadGroupSchedule();
+    this.loadGroupSchedule(this.$route.params.id);
   },
   methods: {
-    loadGroupSchedule() {
-      getGroupSchedule()
+    loadGroupSchedule(id) {
+      getGroupSchedule(id)
         .then((response) => {
           const schedule = response["list_par" + response.title];
 

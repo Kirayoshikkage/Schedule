@@ -1,48 +1,81 @@
 <template>
-  <section :class="{ hide: !specialtiesList.length }" class="specialties">
+  <section :class="{ hide: showPreloader }" class="groups">
     <div class="container">
-      <h2 class="title specialties__title">Список специальностей</h2>
-      <ul class="list-reset specialties__list">
-        <li v-for="(item, idx) of specialtiesList" :key="item.id || idx">
-          <article class="specialties__item">
-            <h3 class="subtitle specialties__subtitle">
-              {{ item.title || "Название специальности" }}
+      <h2 class="title groups__title">{{ title }}</h2>
+      <BackLink
+        :to="{
+          name: 'home',
+        }"
+      >
+        На главную страницу
+      </BackLink>
+      <ul class="list-reset groups__list">
+        <li v-for="(item, idx) of outputGroupsList" :key="item.idx || idx">
+          <article class="groups__item">
+            <h3 class="subtitle groups__subtitle">
+              {{ item.title || "000" }} группа
             </h3>
-            <RouterLink :to="{}" class="specialties__link">
+            <RouterLink
+              :to="{
+                name: 'group',
+                params: {
+                  id: item.id || idx,
+                },
+              }"
+              class="groups__link"
+            >
               Расписание занятий
             </RouterLink>
           </article>
         </li>
       </ul>
-      <BasePreloader :active="!specialtiesList.length" />
+      <BasePreloader :active="showPreloader" />
     </div>
   </section>
 </template>
 
 <script>
 import BasePreloader from "@/components/BasePreloader.vue";
-import { getSpecialtiesList } from "@/Api";
+import BackLink from "@/components/BackLink.vue";
+import { getGroupsList } from "@/Api";
 
 export default {
   components: {
+    BackLink,
     BasePreloader,
   },
   inject: ["error"],
   data() {
     return {
-      specialtiesList: [],
+      groupsList: [],
+      title: "Название специальности",
+      id: 0,
     };
   },
+  computed: {
+    outputGroupsList() {
+      return this.groupsList.length ? this.groupsList : Array(4).fill({});
+    },
+    showPreloader() {
+      return !this.groupsList.length;
+    },
+  },
   mounted() {
-    this.loadSpecialtiesList();
+    this.loadGroupsList(this.$route.params.id);
   },
   methods: {
-    loadSpecialtiesList() {
-      getSpecialtiesList()
+    loadGroupsList(id) {
+      getGroupsList(id)
         .then((response) => {
-          this.specialtiesList.push(...response);
+          this.title = response.title;
+          this.id = response.id;
+          this.groupsList.push(...response.groups);
         })
         .catch((error) => {
+          if (error == 404) {
+            return;
+          }
+
           this.error(error);
         });
     },
@@ -51,7 +84,7 @@ export default {
 </script>
 
 <style lang="scss">
-.specialties {
+.groups {
   padding: 4rem 0;
 
   .container {
@@ -80,48 +113,26 @@ export default {
       z-index: 1;
       background-color: rgba(0, 0, 0, 0.6);
       opacity: 0;
+      visibility: hidden;
+      user-select: none;
       transition: opacity var(--transition-duration);
     }
   }
 
   &.hide &__list::before {
     opacity: 1;
+    visibility: visible;
   }
 
   &__item {
-    position: relative;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
-    min-height: rem(300);
+    background-color: black;
     padding: 3rem 1.5rem;
-
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    &::before {
-      background-color: rgba(0, 0, 0, 0.6);
-      z-index: -1;
-    }
-
-    &::after {
-      background-image: url("@/assets/img/spec-bg.webp");
-      background-size: cover;
-      z-index: -2;
-    }
   }
 
   &__subtitle {
-    margin: 0 0 2rem;
+    margin: 0;
     color: var(--color-white);
   }
 

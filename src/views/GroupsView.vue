@@ -101,6 +101,10 @@ export default {
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
 
+    @include medium {
+      grid-template-columns: 1fr;
+    }
+
     &::before {
       content: "";
       position: absolute;
@@ -127,8 +131,14 @@ export default {
   &__item {
     display: flex;
     justify-content: space-between;
+    gap: 1rem;
     background-color: black;
     padding: 3rem 1.5rem;
+
+    @include x-small {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 
   &__subtitle {
@@ -141,6 +151,10 @@ export default {
     padding: 0 0 rem(8);
     align-self: flex-end;
     border-bottom: rem(1) solid var(--color-white);
+
+    @include x-small {
+      align-self: center;
+    }
   }
 
   .preloader {

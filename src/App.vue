@@ -51,14 +51,26 @@ export default {
 
 .lead {
   font-size: rem(64);
+
+  @include small {
+    font-size: rem(46);
+  }
 }
 
 .title {
   font-size: rem(48);
+
+  @include small {
+    font-size: rem(28);
+  }
 }
 
 .subtitle {
   font-size: rem(32);
+
+  @include small {
+    font-size: rem(21);
+  }
 }
 
 .error-modal {

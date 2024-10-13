@@ -21,7 +21,7 @@
           <td class="schedule__cell">
             {{ lesson.time }}
           </td>
-          <td class="schedule__cell">
+          <td class="schedule__cell schedule__cell_subject">
             {{ lesson.subject }}
           </td>
           <td class="schedule__cell">
@@ -60,6 +60,31 @@ export default {
 
     &_header {
       background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  @include small {
+    thead {
+      display: none;
+    }
+
+    &__line {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      border-bottom: 1px solid var(--color-black);
+      padding: 1rem 0;
+    }
+
+    &__cell {
+      border: none;
+      padding: 0;
+
+      &_subject {
+        flex: 1 1 100%;
+        text-align: start;
+      }
     }
   }
 }

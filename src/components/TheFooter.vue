@@ -25,6 +25,12 @@
     justify-content: space-between;
     align-items: flex-end;
     gap: 2rem;
+
+    @include small {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
   }
 
   &__contacts {

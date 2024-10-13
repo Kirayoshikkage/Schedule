@@ -26,7 +26,7 @@
             type="submit"
             class="specialties__submit"
           >
-            Показать расписание
+            <SearchIcon />
           </button>
         </form>
         <CustomDatalist
@@ -65,12 +65,14 @@
 <script>
 import BasePreloader from "@/components/BasePreloader.vue";
 import CustomDatalist from "@/components/CustomDatalist.vue";
+import SearchIcon from "@/components/icons/SearchIcon.vue";
 import { getSpecialtiesList, getTeachersList } from "@/Api";
 
 export default {
   components: {
     BasePreloader,
     CustomDatalist,
+    SearchIcon,
   },
   inject: ["error"],
   data() {
@@ -140,13 +142,26 @@ export default {
 .specialties {
   padding: 4rem 0;
 
+  @include small {
+    padding: 2rem 0;
+  }
+
   .container {
     position: relative;
   }
 
   &__teachers {
+    position: relative;
     width: 60%;
-    margin: 0 0 3rem;
+    margin: 0 0 6rem;
+
+    @include large {
+      width: 100%;
+    }
+
+    @include small {
+      margin: 0 0 7rem;
+    }
   }
 
   &__form {
@@ -155,7 +170,6 @@ export default {
     flex-wrap: wrap;
     align-items: flex-end;
     gap: 2rem;
-    margin: 0 0 2rem;
   }
 
   &__label {
@@ -176,6 +190,10 @@ export default {
     color: var(--color-white);
     transition: opacity var(--transition-duration);
 
+    svg {
+      stroke: var(--color-white);
+    }
+
     &:disabled {
       opacity: 0.5;
     }
@@ -184,14 +202,16 @@ export default {
   &__reset {
     position: absolute;
     top: 50%;
-    right: 230px;
+    right: 100px;
     z-index: 1;
     font-size: 1.5rem;
     transform: translateY(50%);
   }
 
   .datalist {
-    min-height: rem(35);
+    position: absolute;
+    transform: translateY(100%);
+    bottom: -1rem;
   }
 
   &__title {
@@ -219,6 +239,10 @@ export default {
       visibility: hidden;
       user-select: none;
       transition: opacity var(--transition-duration);
+    }
+
+    @include medium {
+      grid-template-columns: 1fr;
     }
   }
 
@@ -256,6 +280,10 @@ export default {
       background-image: url("@/assets/img/spec-bg.webp");
       background-size: cover;
       z-index: -2;
+    }
+
+    @include small {
+      min-height: rem(240);
     }
   }
 

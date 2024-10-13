@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      output: 4,
+      output: 3,
     };
   },
   computed: {
@@ -72,6 +72,10 @@ export default {
     padding: 0.5rem 1rem;
     background-color: var(--color-black);
     color: var(--color-white);
+
+    @include x-small {
+      font-size: rem(12);
+    }
   }
 }
 </style>

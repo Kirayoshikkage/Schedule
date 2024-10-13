@@ -40,5 +40,9 @@ export default {
     padding: 0 0 rem(8);
     border-bottom: 1px solid var(--color-black);
   }
+
+  @include small {
+    font-size: rem(14);
+  }
 }
 </style>

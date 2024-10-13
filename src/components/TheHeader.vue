@@ -1,10 +1,8 @@
 <template>
   <header class="header">
     <div class="container">
-      <h1 class="lead">
-        <span>Электронное расписание</span>
-        <small>ГАПОУ НСО "Карасукский педагогический колледж"</small>
-      </h1>
+      <h1 class="lead">Электронное расписание</h1>
+      <small class="org">ГАПОУ НСО "Карасукский педагогический колледж"</small>
     </div>
   </header>
 </template>
@@ -15,16 +13,11 @@
 }
 
 .lead {
-  margin: 0;
+  margin: 0 0 1rem;
+}
 
-  span {
-    display: block;
-    margin: 0 0 1rem;
-  }
-
-  small {
-    font-size: rem(24);
-    font-weight: 400;
-  }
+.org {
+  font-size: rem(18);
+  font-weight: 400;
 }
 </style>

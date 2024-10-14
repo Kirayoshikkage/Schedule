@@ -60,11 +60,13 @@ export default {
         formatted = schedule.reduce((acc, item) => {
           const day = this.$options.DAYSWEEK[item.day];
 
-          if (!acc[day]) {
+          if (!acc[day] && day !== undefined) {
             acc[day] = [];
           }
 
-          acc[day].push(item);
+          if (day) {
+            acc[day].push(item);
+          }
 
           return acc;
         }, {});

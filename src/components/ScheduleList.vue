@@ -16,19 +16,21 @@
       <tbody>
         <tr v-for="lesson of day" :key="lesson.index" class="schedule__line">
           <td class="schedule__cell">
-            {{ lesson.index }}
+            {{ lesson.index || "Поле не заполнено , уточните у диспетчера" }}
           </td>
           <td class="schedule__cell">
-            {{ lesson.time }}
+            {{ lesson.time || "Поле не заполнено , уточните у диспетчера" }}
           </td>
           <td class="schedule__cell schedule__cell_subject">
-            {{ lesson.subject }}
+            {{ lesson.subject || "Поле не заполнено , уточните у диспетчера" }}
           </td>
           <td class="schedule__cell">
-            {{ lesson.teacher }}
+            {{ lesson.teacher || "Поле не заполнено , уточните у диспетчера" }}
           </td>
           <td class="schedule__cell">
-            {{ lesson.classroom }}
+            {{
+              lesson.classroom || "Поле не заполнено , уточните у диспетчера"
+            }}
           </td>
         </tr>
       </tbody>
@@ -63,7 +65,7 @@ export default {
     }
   }
 
-  @include small {
+  @include medium {
     thead {
       display: none;
     }

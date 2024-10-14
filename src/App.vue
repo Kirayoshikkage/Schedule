@@ -49,6 +49,21 @@ export default {
 @import "@/assets/styles/common/_common.scss";
 @import "@/assets/styles/vendor/modal.scss";
 
+html,
+body,
+#app {
+  height: 100%;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
+}
+
 .lead {
   font-size: rem(64);
 

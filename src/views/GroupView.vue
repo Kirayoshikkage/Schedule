@@ -4,13 +4,10 @@
       <h2 class="title group__title">Расписание {{ title }} группы</h2>
       <BackLink
         :to="{
-          name: 'groups',
-          params: {
-            id,
-          },
+          name: 'home',
         }"
       >
-        Список групп
+        На главную страницу
       </BackLink>
       <ScheduleList :schedule="formattedSchedule" />
     </div>
@@ -60,11 +57,13 @@ export default {
       formatted = this.schedule.reduce((acc, item) => {
         const day = this.$options.DAYSWEEK[item.day];
 
-        if (!acc[day]) {
+        if (!acc[day] && day !== undefined) {
           acc[day] = [];
         }
 
-        acc[day].push(item);
+        if (day) {
+          acc[day].push(item);
+        }
 
         return acc;
       }, {});

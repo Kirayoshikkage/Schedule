@@ -115,8 +115,6 @@ export default {
         })
         .catch((error) => {
           this.error(error);
-
-          console.log(error);
         });
     },
     updateMatches(matches) {
@@ -169,7 +167,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-end;
-    gap: 2rem;
+    gap: 2rem 1rem;
   }
 
   &__label {
@@ -185,14 +183,8 @@ export default {
   }
 
   &__submit {
-    padding: 1rem;
-    background-color: var(--color-black);
     color: var(--color-white);
     transition: opacity var(--transition-duration);
-
-    svg {
-      stroke: var(--color-white);
-    }
 
     &:disabled {
       opacity: 0.5;
@@ -201,8 +193,8 @@ export default {
 
   &__reset {
     position: absolute;
-    top: 50%;
-    right: 100px;
+    top: 40%;
+    right: 80px;
     z-index: 1;
     font-size: 1.5rem;
     transform: translateY(50%);

@@ -1,8 +1,8 @@
 <template>
   <svg
     class="search-icon"
-    width="24"
-    height="24"
+    width="32"
+    height="32"
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -15,7 +15,7 @@
 
 <style lang="scss">
 .search-icon {
-  fill: var(--color-black);
+  fill: none;
   stroke: var(--color-black);
   stroke-width: 2;
   stroke-linecap: round;

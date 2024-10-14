@@ -1,4 +1,4 @@
-# shedule
+# Shedule
 
 ## Project setup
 ```

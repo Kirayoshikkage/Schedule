@@ -53,7 +53,7 @@ export function pushError(error) {
 export async function getTeachersList() {
   return requestDefault(
     `/get-teachers-list`,
-    (request, response) => response.length
+    (request, response) => !response.length
   );
 }
 

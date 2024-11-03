@@ -73,7 +73,17 @@ ul {
 }
 
 body {
-  background-color: var(--color-white);
+  transition: background .3s;
+}
+
+body[data-theme="light"] {
+  background-color: var(--white);
+  color: var(--black);
+}
+
+body[data-theme="dark"] {
+  background-color: var(--black);
+  color: var(--white);
 }
 
 @media (min-width: rem(2048)) {

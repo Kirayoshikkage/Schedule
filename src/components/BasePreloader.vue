@@ -50,7 +50,7 @@ export default {
 
   &__item {
     position: absolute;
-    border: calc(rem(4) * var(--size)) solid var(--color-white);
+    border: calc(rem(4) * var(--size)) solid var(--white);
     border-radius: 50%;
     opacity: 1;
     animation: animation 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;

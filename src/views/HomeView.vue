@@ -105,7 +105,7 @@ export default {
           this.specialtiesList.push(...response);
         })
         .catch((error) => {
-          this.error(error);
+          this.error(`${error} | Список специальностей`);
         });
     },
     loadTeachersList() {
@@ -114,7 +114,7 @@ export default {
           this.teachersList.push(...response);
         })
         .catch((error) => {
-          this.error(error);
+          this.error(`${error} | Список учителей`);
         });
     },
     updateMatches(matches) {
@@ -177,13 +177,12 @@ export default {
   }
 
   &__input {
-    border-bottom: rem(1) solid var(--color-black);
+    border-bottom: rem(1) solid var(--black);
     padding: 0 0 1rem;
     flex-grow: 1;
   }
 
   &__submit {
-    color: var(--color-white);
     transition: opacity var(--transition-duration);
 
     &:disabled {
@@ -281,14 +280,14 @@ export default {
 
   &__subtitle {
     margin: 0 0 2rem;
-    color: var(--color-white);
+    color: var(--white);
   }
 
   &__link {
-    color: var(--color-white);
+    color: var(--white);
     padding: 0 0 rem(8);
     align-self: flex-end;
-    border-bottom: rem(1) solid var(--color-white);
+    border-bottom: rem(1) solid var(--white);
   }
 
   .preloader {
@@ -299,6 +298,23 @@ export default {
     left: 50%;
     z-index: 2;
     transform: translateX(-50%) translateY(-50%);
+  }
+}
+
+@include dark {
+  .specialties {
+    &__input {
+      color: var(--white);
+      border-bottom: rem(1) solid var(--white);
+    }
+
+    .search-icon {
+      stroke: var(--white);
+    }
+
+    &__reset {
+      color: var(--white);
+    }
   }
 }
 </style>

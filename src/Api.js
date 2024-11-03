@@ -38,6 +38,32 @@ async function requestDefault(
   }
 }
 
+export function pushError(error) {
+  fetch(new URL("/errors", SETTINGS.URL), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({
+      title: error,
+    }),
+  });
+}
+
+export async function getTeachersList() {
+  return requestDefault(
+    `/get-teachers-list`,
+    (request, response) => response.length
+  );
+}
+
+export async function getTeacherSchedule(id) {
+  return requestDefault(
+    `/get-teacher-schedule?teacher=${id}`,
+    (request, response) => !response.length
+  );
+}
+
 export async function getSpecialtiesList() {
   return requestDefault(
     "/get-specialties-list",
@@ -58,18 +84,4 @@ export async function getGroupSchedule(id) {
 
     return !response.title || !response.time || !schedule;
   });
-}
-
-export async function getTeacherSchedule(id) {
-  return requestDefault(
-    `/get-teacher-schedule?teacher=${id}`,
-    (request, response) => !response.length
-  );
-}
-
-export async function getTeachersList() {
-  return requestDefault(
-    `/get-teachers-list`,
-    (request, response) => !response.length
-  );
 }

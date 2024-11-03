@@ -14,6 +14,6 @@
 
 <style lang="scss">
 .arrow-icon {
-  fill: var(--color-black);
+  fill: var(--black);
 }
 </style>

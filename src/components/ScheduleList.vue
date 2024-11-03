@@ -57,7 +57,7 @@ export default {
 
   &__cell {
     padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--color-black);
+    border-bottom: 1px solid var(--black);
     text-align: center;
 
     &_header {
@@ -75,17 +75,35 @@ export default {
       flex-wrap: wrap;
       justify-content: space-between;
       gap: 1rem;
-      border-bottom: 1px solid var(--color-black);
+      border-bottom: 1px solid var(--black);
       padding: 1rem 0;
     }
 
     &__cell {
-      border: none;
+      border: none !important;
       padding: 0;
 
       &_subject {
         flex: 1 1 100%;
         text-align: start;
+      }
+    }
+  }
+}
+
+@include dark {
+  .schedule {
+    &__cell {
+      border-bottom: 1px solid var(--gray);
+
+      &_header {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+
+    @include medium {
+      &__line {
+        border-bottom: 1px solid var(--gray);
       }
     }
   }

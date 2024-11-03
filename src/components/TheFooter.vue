@@ -40,7 +40,13 @@
   }
 
   &__link {
-    color: var(--color-black);
+    color: var(--black);
+  }
+}
+
+@include dark {
+  .footer__link {
+    color: var(--white);
   }
 }
 </style>

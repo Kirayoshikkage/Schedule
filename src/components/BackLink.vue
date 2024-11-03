@@ -28,7 +28,7 @@ export default {
   display: inline-flex;
   gap: 0.5rem;
   align-items: center;
-  color: var(--color-black);
+  color: var(--black);
   font-size: rem(18);
   margin: 0 0 3rem;
 
@@ -38,11 +38,25 @@ export default {
 
   span {
     padding: 0 0 rem(8);
-    border-bottom: 1px solid var(--color-black);
+    border-bottom: 1px solid var(--black);
   }
 
   @include small {
     font-size: rem(14);
+  }
+}
+
+@include dark {
+  .back {
+    color: var(--white);
+
+    .arrow-icon {
+      fill: var(--white);
+    }
+
+    span {
+      border-bottom: 1px solid var(--white);
+    }
   }
 }
 </style>

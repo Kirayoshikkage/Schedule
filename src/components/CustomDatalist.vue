@@ -70,12 +70,18 @@ export default {
 
   &__btn {
     padding: 0.5rem 1rem;
-    background-color: var(--color-black);
-    color: var(--color-white);
+    background-color: var(--black);
+    color: var(--white);
 
     @include x-small {
       font-size: rem(12);
     }
+  }
+}
+
+@include dark {
+  .datalist__btn {
+    background-color: var(--gray);
   }
 }
 </style>

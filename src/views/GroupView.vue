@@ -105,7 +105,7 @@ export default {
             return;
           }
 
-          this.error(error);
+          this.error(`${error} | Расписание группы ${id}`);
         });
     },
   },

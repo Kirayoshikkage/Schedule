@@ -76,7 +76,7 @@ export default {
             return;
           }
 
-          this.error(error);
+          this.error(`${error} | Список групп специальности ${id}`);
         });
     },
   },
@@ -132,7 +132,7 @@ export default {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
-    background-color: black;
+    background-color: var(--black);
     padding: 3rem 1.5rem;
 
     @include x-small {
@@ -143,14 +143,14 @@ export default {
 
   &__subtitle {
     margin: 0;
-    color: var(--color-white);
+    color: var(--white);
   }
 
   &__link {
-    color: var(--color-white);
+    color: var(--white);
     padding: 0 0 rem(8);
     align-self: flex-end;
-    border-bottom: rem(1) solid var(--color-white);
+    border-bottom: rem(1) solid var(--white);
 
     @include x-small {
       align-self: center;
@@ -165,6 +165,12 @@ export default {
     left: 50%;
     z-index: 2;
     transform: translateX(-50%) translateY(-50%);
+  }
+}
+
+@include dark {
+  .groups__item {
+    background-color: var(--gray);
   }
 }
 </style>

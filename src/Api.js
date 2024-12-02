@@ -2,7 +2,7 @@
 import router from "./router";
 
 const SETTINGS = {
-  URL: "http://localhost",
+  URL: "http://back.karasuxr.beget.tech",
 };
 
 async function requestDefault(
@@ -39,7 +39,7 @@ async function requestDefault(
 }
 
 export function pushError(error) {
-  fetch(new URL("/errors", SETTINGS.URL), {
+  fetch(new URL("/api/v4/error", SETTINGS.URL), {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -52,34 +52,34 @@ export function pushError(error) {
 
 export async function getTeachersList() {
   return requestDefault(
-    `/get-teachers-list`,
+    `/api/v3/prepodovatel/`,
     (request, response) => !response.length
   );
 }
 
 export async function getTeacherSchedule(id) {
   return requestDefault(
-    `/get-teacher-schedule?teacher=${id}`,
+    `/api/v2/zadach/?teacher=${id}`,
     (request, response) => !response.length
   );
 }
 
 export async function getSpecialtiesList() {
   return requestDefault(
-    "/get-specialties-list",
+    "/api/v1/zadach/",
     (request, response) => !response.length
   );
 }
 
 export async function getGroupsList(id) {
   return requestDefault(
-    `/get-groups-list/${id}`,
+    `/api/v1/zadach/${id}/`,
     (request, response) => !response.title || !response.groups || !response.id
   );
 }
 
 export async function getGroupSchedule(id) {
-  return requestDefault(`/get-group-schedule/${id}`, (request, response) => {
+  return requestDefault(`/api/v2/zadach/${id}/`, (request, response) => {
     const schedule = response[`list_par${response.title}`];
 
     return !response.title || !response.time || !schedule;

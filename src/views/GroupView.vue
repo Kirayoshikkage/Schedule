@@ -54,19 +54,25 @@ export default {
 
       // Сортирует по дням недели
 
-      formatted = this.schedule.reduce((acc, item) => {
-        const day = this.$options.DAYSWEEK[item.day];
+      formatted = this.schedule.reduce(
+        (acc, item) => {
+          const day = this.$options.DAYSWEEK[item.day];
 
-        if (!acc[day] && day !== undefined) {
-          acc[day] = [];
+          if (day) {
+            acc[day].push(item);
+          }
+
+          return acc;
+        },
+        {
+          Понедельник: [],
+          Вторник: [],
+          Среда: [],
+          Четверг: [],
+          Пятница: [],
+          Суббота: [],
         }
-
-        if (day) {
-          acc[day].push(item);
-        }
-
-        return acc;
-      }, {});
+      );
 
       // Сортирует последовательность уроков по index
 
@@ -81,6 +87,29 @@ export default {
               ...item,
             };
           });
+      }
+
+      // Объединяет смежные уроки
+
+      for (let key in formatted) {
+        formatted[key] = Object.values(
+          formatted[key].reduce((acc, lesson) => {
+            if (!acc[lesson.index]) {
+              acc[lesson.index] = { ...lesson };
+
+              return acc;
+            }
+
+            acc[lesson.index].classroom += ` | ${lesson.classroom}`;
+            acc[lesson.index].teacher += ` | ${lesson.teacher}`;
+
+            if (acc[lesson.index].subject !== lesson.subject) {
+              acc[lesson.index].subject += ` | ${lesson.subject}`;
+            }
+
+            return acc;
+          }, {})
+        );
       }
 
       return formatted;

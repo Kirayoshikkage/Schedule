@@ -9,12 +9,7 @@
       >
         На главную страницу
       </BackLink>
-      <template v-for="(schedule, idx) of formattedSchedule" :key="idx">
-        <h2 class="title teacher__title">
-          {{ teacherSchedule[idx].title }}
-        </h2>
-        <ScheduleList :schedule="schedule" />
-      </template>
+      <ScheduleList :schedule="formattedSchedule" />
     </div>
   </section>
 </template>
@@ -42,52 +37,71 @@ export default {
     return {
       title: this.$route.params.id || "Фамилия И.О",
       teacherSchedule: [],
+      time: [],
     };
   },
   computed: {
+    formattedTime() {
+      return this.time.reduce((acc, item) => {
+        acc[item.id] = item.title;
+
+        return acc;
+      }, {});
+    },
     formattedSchedule() {
-      return this.teacherSchedule.map((item) => {
-        let formattedTime = item.time.reduce((acc, item) => {
-          acc[item.id] = item.title;
+      let schedule = this.teacherSchedule.reduce((acc, item) => {
+        const key = "list_par" + item.title;
+        const items = item[key].map((lesson) => {
+          return {
+            ...lesson,
+            group: item.title,
+          };
+        });
 
-          return acc;
-        }, {});
-        let schedule = item["list_par" + item.title];
-        let formatted = {};
+        acc.push(...items);
 
-        // Сортирует по дням недели
+        return acc;
+      }, []);
+      let formatted = {};
 
-        formatted = schedule.reduce((acc, item) => {
+      // Сортирует по дням недели
+
+      formatted = schedule.reduce(
+        (acc, item) => {
           const day = this.$options.DAYSWEEK[item.day];
-
-          if (!acc[day] && day !== undefined) {
-            acc[day] = [];
-          }
 
           if (day) {
             acc[day].push(item);
           }
 
           return acc;
-        }, {});
-
-        // Сортирует последовательность уроков по index
-
-        for (let key in formatted) {
-          formatted[key] = formatted[key]
-            .sort((a, b) => a.index - b.index)
-            .map((item) => {
-              const time = formattedTime[item.index];
-
-              return {
-                time,
-                ...item,
-              };
-            });
+        },
+        {
+          Понедельник: [],
+          Вторник: [],
+          Среда: [],
+          Четверг: [],
+          Пятница: [],
+          Суббота: [],
         }
+      );
 
-        return formatted;
-      });
+      // Сортирует последовательность уроков по index
+
+      for (let key in formatted) {
+        formatted[key] = formatted[key]
+          .sort((a, b) => a.index - b.index)
+          .map((item) => {
+            const time = this.formattedTime[item.index];
+
+            return {
+              time,
+              ...item,
+            };
+          });
+      }
+
+      return formatted;
     },
   },
   mounted() {
@@ -98,6 +112,7 @@ export default {
       getTeacherSchedule(id)
         .then((response) => {
           this.teacherSchedule.push(...response);
+          this.time = response[0].time;
         })
         .catch((error) => {
           if (error == 404) {

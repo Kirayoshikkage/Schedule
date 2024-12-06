@@ -97,6 +97,10 @@ body,
   height: 100%;
 }
 
+body {
+  overflow-y: scroll;
+}
+
 #app {
   display: flex;
   flex-direction: column;

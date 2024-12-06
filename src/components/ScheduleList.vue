@@ -2,8 +2,9 @@
   <template v-for="(day, idx) in schedule" :key="day">
     <h3 class="subtitle">
       {{ idx }}
+      <span v-if="!day.length">(уроки отсутствуют)</span>
     </h3>
-    <table class="schedule">
+    <table v-if="day.length" class="schedule">
       <thead>
         <tr class="schedule__line">
           <th class="schedule__cell schedule__cell_header">№</th>
@@ -23,6 +24,7 @@
           </td>
           <td class="schedule__cell schedule__cell_subject">
             {{ lesson.subject || "Поле не заполнено , уточните у диспетчера" }}
+            <template v-if="lesson.group">({{ lesson.group }})</template>
           </td>
           <td class="schedule__cell">
             {{ lesson.teacher || "Поле не заполнено , уточните у диспетчера" }}

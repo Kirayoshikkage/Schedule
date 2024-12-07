@@ -50,6 +50,10 @@ export function pushError(error) {
   });
 }
 
+export async function getNewsList() {
+  return requestDefault(`/api/v5/news/`);
+}
+
 export async function getTeachersList() {
   return requestDefault(
     `/api/v3/prepodovatel/`,

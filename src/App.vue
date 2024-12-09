@@ -134,24 +134,42 @@ main {
   }
 }
 
-.error-modal {
+.vfm {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 1rem;
+}
 
-  .vfm__content {
-    background-color: var(--white);
-    padding: 3rem 1.5rem;
-  }
+.vfm__content {
+  position: relative;
+  background-color: var(--white);
+  padding: 3rem 1.5rem;
+}
 
-  &__title {
-    font-size: rem(32);
-  }
+.vfm__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.vfm__close path {
+  fill: var(--black);
 }
 
 @include dark {
-  .error-modal .vfm__content {
+  .vfm__content {
     background-color: var(--gray);
+  }
+
+  .vfm__close path {
+    fill: var(--white);
+  }
+}
+
+.error-modal {
+  &__title {
+    font-size: rem(32);
   }
 }
 </style>

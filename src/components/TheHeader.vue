@@ -9,6 +9,7 @@
       </div>
       <div class="header__item header__item_btns">
         <ThemeButton />
+        <MenuLink />
       </div>
       <div v-if="newsList.length" class="header__item header__item_news">
         <swiper
@@ -33,25 +34,57 @@
               <small class="news-card__published-time">
                 {{ news.published_at }}
               </small>
-              <h3 class="subtitle news-card__subtitle">
-                <button>{{ news.title }}</button>
+              <h3
+                class="subtitle news-card__subtitle news-card__subtitle_short"
+              >
+                <button @click="newsInfoItemId = news.id">
+                  {{ news.title }}
+                </button>
               </h3>
-              <p class="news-card__content">
+              <p class="news-card__content news-card__content_short">
                 {{ news.content }}
               </p>
             </article>
           </swiper-slide>
         </swiper>
       </div>
+      <teleport to="body">
+        <VueFinalModal
+          :model-value="Boolean(newsInfoItemId)"
+          @update:model-value="newsInfoModalHandler"
+          :overlay-transition="'vfm-fade'"
+          :content-transition="'vfm-fade'"
+          class="news-info-modal"
+        >
+          <article class="news-card">
+            <small class="news-card__published-time">
+              {{ newsInfoItem.published_at }}
+            </small>
+            <h3 class="subtitle news-card__subtitle">
+              {{ newsInfoItem.title }}
+            </h3>
+            <p class="news-card__content">
+              {{ newsInfoItem.content }}
+            </p>
+          </article>
+          <button @click="newsInfoItemId = undefined" class="vfm__close">
+            <CloseIcon />
+          </button>
+        </VueFinalModal>
+        <ModalsContainer />
+      </teleport>
     </div>
   </header>
 </template>
 
 <script>
 import ThemeButton from "./ThemeButton.vue";
+import MenuLink from "./MenuLink.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination } from "swiper/modules";
 import { getNewsList } from "@/Api";
+import { ModalsContainer, VueFinalModal } from "vue-final-modal";
+import CloseIcon from "./icons/CloseIcon.vue";
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -60,6 +93,10 @@ export default {
     ThemeButton,
     Swiper,
     SwiperSlide,
+    ModalsContainer,
+    VueFinalModal,
+    CloseIcon,
+    MenuLink,
   },
   inject: ["error"],
   setup() {
@@ -70,6 +107,7 @@ export default {
   data() {
     return {
       newsList: [],
+      newsInfoItemId: undefined,
     };
   },
   computed: {
@@ -86,6 +124,11 @@ export default {
         };
       });
     },
+    newsInfoItem() {
+      return this.formattedNewList.filter((item) => {
+        return item.id == this.newsInfoItemId;
+      })[0];
+    },
   },
   mounted() {
     this.loadNewsList();
@@ -99,6 +142,11 @@ export default {
         .catch((error) => {
           this.error(`${error} | Список новостей`);
         });
+    },
+    newsInfoModalHandler(flag) {
+      if (!flag && this.newsInfoItemId) {
+        this.newsInfoItemId = undefined;
+      }
     },
   },
 };
@@ -116,6 +164,12 @@ export default {
 
   .header__item_news {
     grid-column: 1 / 3;
+  }
+
+  .header__item_btns {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 
   .lead {
@@ -145,40 +199,6 @@ export default {
     background-color: var(--black);
   }
 
-  .news-card__published-time {
-    display: block;
-    margin: 0 0 0.5rem;
-  }
-
-  .news-card__subtitle {
-    margin: 0 0 2rem;
-  }
-
-  .news-card__subtitle button {
-    max-width: 100%;
-    font-weight: bold;
-    color: currentColor;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: transparent;
-    padding: 0 0 0.5rem;
-    transition: border var(--transition-duration);
-  }
-
-  .news-card__subtitle button:hover {
-    border-bottom-color: currentColor;
-  }
-
-  .news-card__content {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
-  }
-
   @include small {
     .container {
       display: flex;
@@ -189,11 +209,72 @@ export default {
     .header__item_btns {
       order: -1;
       align-self: flex-end;
+      flex-direction: row;
     }
 
     .header__item_news {
       padding: 4rem 0 0;
     }
+  }
+}
+
+.news-card__published-time {
+  display: block;
+  margin: 0 0 0.5rem;
+}
+
+.news-card__subtitle {
+  margin: 0 0 2rem;
+}
+
+.news-card__subtitle_short button {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  font-weight: bold;
+  color: currentColor;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: transparent;
+  padding: 0 0 0.5rem;
+  transition: border var(--transition-duration);
+}
+
+.news-card__subtitle_short button:hover {
+  border-bottom-color: currentColor;
+}
+
+.news-card__content {
+  word-break: break-all;
+}
+
+.news-card__content_short {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.news-info-modal .vfm__content {
+  max-width: 50%;
+  max-height: 100%;
+  overflow: auto;
+}
+
+@include medium {
+  .news-info-modal .vfm__content {
+    max-width: 100%;
+  }
+}
+
+@include x-small {
+  .news-card__subtitle {
+    margin: 0 0 1rem;
+  }
+
+  .news-card__content {
+    font-size: 0.8rem;
   }
 }
 

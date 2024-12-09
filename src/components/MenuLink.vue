@@ -1,27 +1,26 @@
 <template>
-  <button @click="toggleTheme" class="theme-button">
-    <ThemeIcon />
-  </button>
+  <a class="menu-link" href="menu.pdf#page=1" target="_blank">
+    <MenuIcon />
+  </a>
 </template>
 
 <script>
-import ThemeIcon from "./icons/ThemeIcon.vue";
+import MenuIcon from "./icons/MenuIcon.vue";
 
 export default {
   components: {
-    ThemeIcon,
+    MenuIcon,
   },
-  inject: ["toggleTheme"],
 };
 </script>
 
 <style lang="scss">
-.theme-button {
+.menu-link {
   display: block;
   padding: rem(8) rem(6) rem(4);
   background-color: var(--black);
 
-  .theme-icon {
+  .menu-icon {
     width: rem(32);
     height: rem(32);
     fill: var(--white);
@@ -34,7 +33,7 @@ export default {
 }
 
 @include dark {
-  .theme-button {
+  .menu-link {
     background-color: var(--gray);
   }
 }

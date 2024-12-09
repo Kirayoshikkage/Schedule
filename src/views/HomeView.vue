@@ -14,8 +14,7 @@
             placeholder="Баштанов В.И."
           />
           <button
-            @pointerdown="teacher = ''"
-            @keydown.space.enter="teacher = ''"
+            @click="teacher = ''"
             type="button"
             class="specialties__reset"
           >

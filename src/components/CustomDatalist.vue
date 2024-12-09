@@ -1,11 +1,7 @@
 <template>
   <ul class="datalist">
     <li v-for="item of outputListItems" :key="item.id">
-      <button
-        @pointerdown="updateModeValue(item.title)"
-        @keydown.space.enter="updateModeValue(item.title)"
-        class="datalist__btn"
-      >
+      <button @click="updateModeValue(item.title)" class="datalist__btn">
         {{ item.title }}
       </button>
     </li>

@@ -89,3 +89,10 @@ export async function getGroupSchedule(id) {
     return !response.title || !response.time || !schedule;
   });
 }
+
+export async function getFullScheduleList() {
+  return requestDefault(
+    "api/v2/zadach/",
+    (request, response) => !response.length
+  );
+}

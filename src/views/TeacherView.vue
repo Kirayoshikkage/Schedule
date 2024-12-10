@@ -48,6 +48,7 @@ export default {
         return acc;
       }, {});
     },
+    // TODO : рефакторинг
     formattedSchedule() {
       let schedule = this.teacherSchedule.reduce((acc, item) => {
         const key = "list_par" + item.title;
@@ -63,28 +64,37 @@ export default {
         return acc;
       }, []);
       let formatted = {};
+      let sample = Object.keys(this.$options.DAYSWEEK).reduce((acc, item) => {
+        // item - eng , day - ru
+        const day = this.$options.DAYSWEEK[item];
+        const values = [...Array(10).keys()].map((i) => {
+          return {
+            index: i + 1,
+            day: item,
+            subject: "-",
+            teacher: "-",
+            classroom: "-",
+          };
+        });
+
+        acc[day] = values;
+
+        return acc;
+      }, {});
 
       // Сортирует по дням недели
 
-      formatted = schedule.reduce(
-        (acc, item) => {
-          const day = this.$options.DAYSWEEK[item.day];
+      formatted = schedule.reduce((acc, item) => {
+        const day = this.$options.DAYSWEEK[item.day];
 
-          if (day) {
-            acc[day].push(item);
-          }
+        if (day) {
+          const index = item.index - 1;
 
-          return acc;
-        },
-        {
-          Понедельник: [],
-          Вторник: [],
-          Среда: [],
-          Четверг: [],
-          Пятница: [],
-          Суббота: [],
+          acc[day][index] = item;
         }
-      );
+
+        return acc;
+      }, sample);
 
       // Сортирует последовательность уроков по index
 
@@ -92,7 +102,7 @@ export default {
         formatted[key] = formatted[key]
           .sort((a, b) => a.index - b.index)
           .map((item) => {
-            const time = this.formattedTime[item.index];
+            const time = this.formattedTime[item.index] || "-";
 
             return {
               time,

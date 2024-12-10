@@ -8,8 +8,15 @@
         >
       </div>
       <div class="header__item header__item_btns">
-        <ThemeButton />
-        <MenuLink />
+        <button @click="toggleTheme" class="header__btn">
+          <ThemeIcon />
+        </button>
+        <a href="menu.pdf#page=1" target="_blank" class="header__btn">
+          <MenuIcon />
+        </a>
+        <RouterLink :to="{ name: 'fullschedule' }" class="header__btn">
+          <ScheduleIcon />
+        </RouterLink>
       </div>
       <div v-if="newsList.length" class="header__item header__item_news">
         <swiper
@@ -78,8 +85,9 @@
 </template>
 
 <script>
-import ThemeButton from "./ThemeButton.vue";
-import MenuLink from "./MenuLink.vue";
+import ThemeIcon from "./icons/ThemeIcon.vue";
+import MenuIcon from "./icons/MenuIcon.vue";
+import ScheduleIcon from "./icons/ScheduleIcon.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination } from "swiper/modules";
 import { getNewsList } from "@/Api";
@@ -90,15 +98,16 @@ import "swiper/css/pagination";
 
 export default {
   components: {
-    ThemeButton,
     Swiper,
     SwiperSlide,
     ModalsContainer,
     VueFinalModal,
     CloseIcon,
-    MenuLink,
+    ThemeIcon,
+    MenuIcon,
+    ScheduleIcon,
   },
-  inject: ["error"],
+  inject: ["error", "toggleTheme"],
   setup() {
     return {
       modules: [Pagination],
@@ -170,6 +179,23 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+  }
+
+  .header__btn {
+    display: block;
+    padding: rem(8) rem(6) rem(4);
+    background-color: var(--black);
+
+    .icon {
+      width: rem(32);
+      height: rem(32);
+      fill: var(--white);
+
+      @include x-small {
+        width: rem(24);
+        height: rem(24);
+      }
+    }
   }
 
   .lead {
@@ -281,6 +307,10 @@ export default {
 @include dark {
   .swiper-pagination-bullet {
     background-color: var(--white);
+  }
+
+  .header__btn {
+    background-color: var(--gray);
   }
 }
 </style>

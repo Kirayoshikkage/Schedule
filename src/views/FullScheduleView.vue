@@ -1,29 +1,22 @@
 <template>
   <section class="full-schedule">
-    <div class="full-schedule__item">
-      <div class="container">
-        <h2 class="title full-schedule__title">Расписание всех групп</h2>
-        <BackLink
-          :to="{
-            name: 'home',
-          }"
-        >
-          На главную страницу
-        </BackLink>
-      </div>
-    </div>
-    <div class="full-schedule__item">
-      <ul class="full-schedule__list">
-        <li
-          v-for="(group, idx) of formattedSchedule"
-          :key="idx"
-          class="full-schedule__item"
-        >
-          <h3 class="subtitle">{{ group.title }}</h3>
-          <ScheduleList :schedule="group.schedule" />
-        </li>
-      </ul>
-    </div>
+    <BackLink
+      :to="{
+        name: 'home',
+      }"
+    >
+      На главную страницу
+    </BackLink>
+    <ul class="full-schedule__list">
+      <li
+        v-for="(group, idx) of formattedSchedule"
+        :key="idx"
+        class="full-schedule__item"
+      >
+        <h3 class="subtitle">{{ group.title }}</h3>
+        <ScheduleList :schedule="group.schedule" />
+      </li>
+    </ul>
   </section>
 </template>
 
@@ -166,26 +159,23 @@ export default {
 
 <style lang="scss">
 .full-schedule {
-  padding: 4rem 0;
+  padding: 4rem 1rem;
 
-  &__title {
-    margin: 0 0 3rem;
-  }
-
-  &__item:last-child {
-    padding: 0 1rem;
+  .back {
+    position: fixed;
+    top: 2.5rem;
+    left: 1rem;
   }
 
   &__list {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;
     gap: 2rem;
   }
 
   .schedule {
     &__cell {
-      padding: 1rem;
-      font-size: 0.7rem;
+      padding: 0.5rem;
+      font-size: 0.5rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;

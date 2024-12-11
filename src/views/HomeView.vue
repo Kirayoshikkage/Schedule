@@ -1,67 +1,79 @@
 <template>
-  <section :class="{ hide: showPreloader }" class="specialties">
-    <div class="container">
-      <div class="specialties__teachers">
-        <form @submit.prevent="searchTeachersHandler" class="specialties__form">
-          <label class="specialties__label" for="teacher"
-            >Поиск по преподавателям</label
+  <TheHeader />
+  <main>
+    <section :class="{ hide: showPreloader }" class="specialties">
+      <div class="container">
+        <div class="specialties__teachers">
+          <form
+            @submit.prevent="searchTeachersHandler"
+            class="specialties__form"
           >
-          <input
-            v-model="teacher"
-            class="specialties__input"
-            type="text"
-            id="teacher"
-            placeholder="Баштанов В.И."
-          />
-          <button
-            @click="teacher = ''"
-            type="button"
-            class="specialties__reset"
-          >
-            x
-          </button>
-          <button
-            :disabled="!teachersListMatches.length || !teacher"
-            type="submit"
-            class="specialties__submit"
-          >
-            <SearchIcon />
-          </button>
-        </form>
-        <CustomDatalist
-          :list-items="teachersList"
-          :substring="teacher"
-          v-model="teacher"
-          @matches="updateMatches"
-        />
-      </div>
-      <h2 class="title specialties__title">Список специальностей</h2>
-      <ul class="list-reset specialties__list">
-        <li v-for="(item, idx) of outputSpecialtiesList" :key="item.id || idx">
-          <article class="specialties__item">
-            <h3 class="subtitle specialties__subtitle">
-              {{ item.title || "Название специальности" }}
-            </h3>
-            <RouterLink
-              :to="{
-                name: 'groups',
-                params: {
-                  id: item.id || idx,
-                },
-              }"
-              class="specialties__link"
+            <label class="specialties__label" for="teacher"
+              >Поиск по преподавателям</label
             >
-              Список групп
-            </RouterLink>
-          </article>
-        </li>
-      </ul>
-      <BasePreloader :active="showPreloader" />
-    </div>
-  </section>
+            <input
+              v-model="teacher"
+              class="specialties__input"
+              type="text"
+              id="teacher"
+              placeholder="Баштанов В.И."
+            />
+            <button
+              @click="teacher = ''"
+              type="button"
+              class="specialties__reset"
+            >
+              x
+            </button>
+            <button
+              :disabled="!teachersListMatches.length || !teacher"
+              type="submit"
+              class="specialties__submit"
+            >
+              <SearchIcon />
+            </button>
+          </form>
+          <CustomDatalist
+            :list-items="teachersList"
+            :substring="teacher"
+            v-model="teacher"
+            @matches="updateMatches"
+          />
+        </div>
+        <h2 class="title specialties__title">Список специальностей</h2>
+        <ul class="list-reset specialties__list">
+          <li
+            v-for="(item, idx) of outputSpecialtiesList"
+            :key="item.id || idx"
+          >
+            <article class="specialties__item">
+              <h3 class="subtitle specialties__subtitle">
+                {{ item.title || "Название специальности" }}
+              </h3>
+              <RouterLink
+                :to="{
+                  name: 'groups',
+                  params: {
+                    id: item.id || idx,
+                  },
+                }"
+                class="specialties__link"
+              >
+                Список групп
+              </RouterLink>
+            </article>
+          </li>
+        </ul>
+        <BasePreloader :active="showPreloader" />
+      </div>
+    </section>
+  </main>
+  <TheFooter />
 </template>
 
 <script>
+import TheHeader from "@/components/TheHeader.vue";
+import TheFooter from "@/components/TheFooter.vue";
 import BasePreloader from "@/components/BasePreloader.vue";
 import CustomDatalist from "@/components/CustomDatalist.vue";
 import SearchIcon from "@/components/icons/SearchIcon.vue";
@@ -69,6 +81,8 @@ import { getSpecialtiesList, getTeachersList } from "@/Api";
 
 export default {
   components: {
+    TheHeader,
+    TheFooter,
     BasePreloader,
     CustomDatalist,
     SearchIcon,

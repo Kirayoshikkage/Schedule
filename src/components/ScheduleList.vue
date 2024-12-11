@@ -4,7 +4,7 @@
       {{ idx }}
       <span v-if="!day.length">(уроки отсутствуют)</span>
     </h3>
-    <table v-if="day.length" class="schedule">
+    <table v-if="day.length" v-bind="$attrs" class="schedule">
       <thead>
         <tr class="schedule__line">
           <th class="schedule__cell schedule__cell_header">№</th>
@@ -67,27 +67,29 @@ export default {
     }
   }
 
-  @include medium {
-    thead {
-      display: none;
-    }
+  &_adaptive {
+    @include medium {
+      thead {
+        display: none;
+      }
 
-    &__line {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 1rem;
-      border-bottom: 1px solid var(--black);
-      padding: 1rem 0;
-    }
+      .schedule__line {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1rem;
+        border-bottom: 1px solid var(--black);
+        padding: 1rem 0;
+      }
 
-    &__cell {
-      border: none !important;
-      padding: 0;
+      .schedule__cell {
+        border: none !important;
+        padding: 0;
 
-      &_subject {
-        flex: 1 1 100%;
-        text-align: start;
+        &_subject {
+          flex: 1 1 100%;
+          text-align: start;
+        }
       }
     }
   }
@@ -103,9 +105,11 @@ export default {
       }
     }
 
-    @include medium {
-      &__line {
-        border-bottom: 1px solid var(--gray);
+    &_adaptive {
+      @include medium {
+        .schedule__line {
+          border-bottom: 1px solid var(--gray);
+        }
       }
     }
   }

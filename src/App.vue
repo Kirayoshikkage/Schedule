@@ -1,9 +1,5 @@
 <template>
-  <TheHeader />
-  <main>
-    <router-view />
-  </main>
-  <TheFooter />
+  <router-view />
   <VueFinalModal
     v-model="isError"
     :overlay-transition="'vfm-fade'"
@@ -16,15 +12,11 @@
 </template>
 
 <script>
-import TheHeader from "./components/TheHeader.vue";
-import TheFooter from "./components/TheFooter.vue";
 import { ModalsContainer, VueFinalModal } from "vue-final-modal";
 import { pushError } from "./Api";
 
 export default {
   components: {
-    TheHeader,
-    TheFooter,
     ModalsContainer,
     VueFinalModal,
   },

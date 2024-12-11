@@ -1,26 +1,34 @@
 <template>
-  <section class="teacher">
-    <div class="container">
-      <h2 class="title teacher__title">Преподаватель : {{ title }}</h2>
-      <BackLink
-        :to="{
-          name: 'home',
-        }"
-      >
-        На главную страницу
-      </BackLink>
-      <ScheduleList :schedule="formattedSchedule" />
-    </div>
-  </section>
+  <TheHeader />
+  <main>
+    <section class="teacher">
+      <div class="container">
+        <h2 class="title teacher__title">Преподаватель : {{ title }}</h2>
+        <BackLink
+          :to="{
+            name: 'home',
+          }"
+        >
+          На главную страницу
+        </BackLink>
+        <ScheduleList :schedule="formattedSchedule" class="schedule_adaptive" />
+      </div>
+    </section>
+  </main>
+  <TheFooter />
 </template>
 
 <script>
 import { getTeacherSchedule } from "@/Api";
+import TheHeader from "@/components/TheHeader.vue";
+import TheFooter from "@/components/TheFooter.vue";
 import BackLink from "@/components/BackLink.vue";
 import ScheduleList from "@/components/ScheduleList.vue";
 
 export default {
   components: {
+    TheHeader,
+    TheFooter,
     BackLink,
     ScheduleList,
   },

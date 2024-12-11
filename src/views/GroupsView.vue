@@ -1,46 +1,54 @@
 <template>
-  <section :class="{ hide: showPreloader }" class="groups">
-    <div class="container">
-      <h2 class="title groups__title">{{ title }}</h2>
-      <BackLink
-        :to="{
-          name: 'home',
-        }"
-      >
-        На главную страницу
-      </BackLink>
-      <ul class="list-reset groups__list">
-        <li v-for="(item, idx) of outputGroupsList" :key="item.idx || idx">
-          <article class="groups__item">
-            <h3 class="subtitle groups__subtitle">
-              {{ item.title || "000" }} группа
-            </h3>
-            <RouterLink
-              :to="{
-                name: 'group',
-                params: {
-                  id: item.id || idx,
-                },
-              }"
-              class="groups__link"
-            >
-              Расписание занятий
-            </RouterLink>
-          </article>
-        </li>
-      </ul>
-      <BasePreloader :active="showPreloader" />
-    </div>
-  </section>
+  <TheHeader />
+  <main>
+    <section :class="{ hide: showPreloader }" class="groups">
+      <div class="container">
+        <h2 class="title groups__title">{{ title }}</h2>
+        <BackLink
+          :to="{
+            name: 'home',
+          }"
+        >
+          На главную страницу
+        </BackLink>
+        <ul class="list-reset groups__list">
+          <li v-for="(item, idx) of outputGroupsList" :key="item.idx || idx">
+            <article class="groups__item">
+              <h3 class="subtitle groups__subtitle">
+                {{ item.title || "000" }} группа
+              </h3>
+              <RouterLink
+                :to="{
+                  name: 'group',
+                  params: {
+                    id: item.id || idx,
+                  },
+                }"
+                class="groups__link"
+              >
+                Расписание занятий
+              </RouterLink>
+            </article>
+          </li>
+        </ul>
+        <BasePreloader :active="showPreloader" />
+      </div>
+    </section>
+  </main>
+  <TheFooter />
 </template>
 
 <script>
+import TheHeader from "@/components/TheHeader.vue";
+import TheFooter from "@/components/TheFooter.vue";
 import BasePreloader from "@/components/BasePreloader.vue";
 import BackLink from "@/components/BackLink.vue";
 import { getGroupsList } from "@/Api";
 
 export default {
   components: {
+    TheHeader,
+    TheFooter,
     BackLink,
     BasePreloader,
   },

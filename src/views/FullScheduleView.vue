@@ -8,13 +8,38 @@
       На главную страницу
     </BackLink>
     <ul class="full-schedule__list">
+      <!-- group -->
       <li
-        v-for="(group, idx) of formattedSchedule"
-        :key="idx"
+        v-for="group of formattedSchedule"
+        :key="group.title"
         class="full-schedule__item"
       >
-        <h3 class="subtitle">{{ group.title }}</h3>
-        <ScheduleList :schedule="group.schedule" />
+        <h2 class="title">{{ group.title }}</h2>
+        <!-- day -->
+        <div
+          v-for="(day, idx) in group.schedule"
+          :key="group.title + day"
+          class="full-schedule__card"
+        >
+          <h3 class="subtitle">{{ idx }}</h3>
+          <ul class="full-schedule__lessons">
+            <!-- lesson -->
+            <li
+              v-for="lesson of day"
+              :key="group.title + day + lesson.index"
+              class="full-schedule__lesson"
+            >
+              <p class="full-schedule__number">{{ lesson.index }}</p>
+              <p class="full-schedule__classroom">{{ lesson.classroom }}</p>
+              <p class="full-schedule__subject">
+                <span>{{ lesson.subject }}</span>
+              </p>
+              <p class="full-schedule__teacher">
+                <span>{{ lesson.teacher }}</span>
+              </p>
+            </li>
+          </ul>
+        </div>
       </li>
     </ul>
   </section>
@@ -23,12 +48,10 @@
 <script>
 import BackLink from "@/components/BackLink.vue";
 import { getFullScheduleList } from "@/Api";
-import ScheduleList from "@/components/ScheduleList.vue";
 
 export default {
   components: {
     BackLink,
-    ScheduleList,
   },
   inject: ["error"],
   DAYSWEEK: {
@@ -159,27 +182,70 @@ export default {
 
 <style lang="scss">
 .full-schedule {
-  padding: 4rem 1rem;
+  width: 1840px;
+  padding: 64px 16px;
 
   .back {
     position: fixed;
-    top: 2.5rem;
-    left: 1rem;
+    top: 16px;
+    left: 16px;
+  }
+
+  .title {
+    font-size: 10px;
+  }
+
+  .subtitle {
+    font-size: 8px;
   }
 
   &__list {
     display: flex;
-    gap: 2rem;
   }
 
-  .schedule {
-    &__cell {
-      padding: 0.5rem;
-      font-size: 0.5rem;
+  &__item {
+    padding: 0 4px;
+
+    &:not(:last-child) {
+      border-right: 1px solid var(--black);
+    }
+  }
+
+  &__lesson {
+    display: flex;
+    gap: 4px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--black);
+
+    p {
+      margin: 0;
+      font-size: 6px;
+    }
+  }
+
+  &__subject {
+    flex: 1 1 100%;
+
+    span {
+      display: block;
+      max-width: 50px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 14rem;
+    }
+  }
+
+  &__teacher {
+    flex: 1 1 100%;
+
+    span {
+      display: block;
+      max-width: 50px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }

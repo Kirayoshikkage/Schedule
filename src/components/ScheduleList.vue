@@ -16,10 +16,10 @@
       </thead>
       <tbody>
         <tr v-for="lesson of day" :key="lesson.index" class="schedule__line">
-          <td class="schedule__cell">
+          <td class="schedule__cell schedule__cell_number">
             {{ lesson.index || "Поле не заполнено , уточните у диспетчера" }}
           </td>
-          <td class="schedule__cell">
+          <td class="schedule__cell schedule__cell_time">
             {{ lesson.time || "Поле не заполнено , уточните у диспетчера" }}
           </td>
           <td class="schedule__cell schedule__cell_subject">

@@ -1,34 +1,26 @@
 <template>
-  <TheHeader />
-  <main>
-    <section class="group">
-      <div class="container">
-        <h2 class="title group__title">Расписание {{ title }} группы</h2>
-        <BackLink
-          :to="{
-            name: 'home',
-          }"
-        >
-          На главную страницу
-        </BackLink>
-        <ScheduleList :schedule="formattedSchedule" class="schedule_adaptive" />
-      </div>
-    </section>
-  </main>
-  <TheFooter />
+  <section class="group">
+    <div class="container">
+      <h2 class="title group__title">Расписание {{ title }} группы</h2>
+      <BackLink
+        :to="{
+          name: 'home',
+        }"
+      >
+        На главную страницу
+      </BackLink>
+      <ScheduleList :schedule="formattedSchedule" class="schedule_adaptive" />
+    </div>
+  </section>
 </template>
 
 <script>
 import { getGroupSchedule } from "@/Api";
-import TheHeader from "@/components/TheHeader.vue";
-import TheFooter from "@/components/TheFooter.vue";
 import ScheduleList from "@/components/ScheduleList.vue";
 import BackLink from "@/components/BackLink.vue";
 
 export default {
   components: {
-    TheHeader,
-    TheFooter,
     ScheduleList,
     BackLink,
   },

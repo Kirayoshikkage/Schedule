@@ -3,7 +3,6 @@ import HomeView from "../views/HomeView.vue";
 import GroupsView from "../views/GroupsView.vue";
 import GroupView from "../views/GroupView.vue";
 import TeacherView from "../views/TeacherView.vue";
-import FullScheduleView from "../views/FullScheduleView.vue";
 
 const routes = [
   {
@@ -61,11 +60,6 @@ const routes = [
 
       next();
     },
-  },
-  {
-    path: "/full-schedule",
-    name: "fullschedule",
-    component: FullScheduleView,
   },
 ];
 

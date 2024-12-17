@@ -14,9 +14,6 @@
         <a href="menu.pdf#page=1" target="_blank" class="header__btn">
           <MenuIcon />
         </a>
-        <RouterLink :to="{ name: 'fullschedule' }" class="header__btn">
-          <ScheduleIcon />
-        </RouterLink>
       </div>
       <div v-if="newsList.length" class="header__item header__item_news">
         <swiper
@@ -87,7 +84,6 @@
 <script>
 import ThemeIcon from "./icons/ThemeIcon.vue";
 import MenuIcon from "./icons/MenuIcon.vue";
-import ScheduleIcon from "./icons/ScheduleIcon.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination } from "swiper/modules";
 import { getNewsList } from "@/Api";
@@ -105,7 +101,6 @@ export default {
     CloseIcon,
     ThemeIcon,
     MenuIcon,
-    ScheduleIcon,
   },
   inject: ["error", "toggleTheme"],
   setup() {

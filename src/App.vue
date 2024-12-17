@@ -2,6 +2,7 @@
   <TheHeader />
   <main>
     <router-view />
+    <ScrollTop />
   </main>
   <TheFooter />
   <VueFinalModal
@@ -17,6 +18,7 @@
 
 <script>
 import TheHeader from "@/components/TheHeader.vue";
+import ScrollTop from "./components/ScrollTop.vue";
 import TheFooter from "@/components/TheFooter.vue";
 import { ModalsContainer, VueFinalModal } from "vue-final-modal";
 import { pushError } from "./Api";
@@ -24,6 +26,7 @@ import { pushError } from "./Api";
 export default {
   components: {
     TheHeader,
+    ScrollTop,
     TheFooter,
     ModalsContainer,
     VueFinalModal,
@@ -40,7 +43,11 @@ export default {
     };
   },
   created() {
-    this.setTheme(localStorage.getItem(this.theme.LS) || this.theme.LIGHT);
+    let theme = this.storageAvailable()
+      ? localStorage.getItem(this.theme.LS) || this.theme.LIGHT
+      : this.theme.LIGHT;
+
+    this.setTheme(theme);
   },
   methods: {
     setError(e) {
@@ -49,6 +56,12 @@ export default {
       pushError(e);
     },
     setTheme(theme) {
+      if (!this.storageAvailable()) {
+        this.theme.value = theme;
+
+        return;
+      }
+
       if (
         this.theme.value == theme &&
         localStorage.getItem(this.theme.LS) == theme
@@ -68,6 +81,17 @@ export default {
       }
 
       this.setTheme(this.theme.LIGHT);
+    },
+    storageAvailable() {
+      try {
+        let storage = window["localStorage"];
+        let x = "__storage_test__";
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+      } catch (e) {
+        return false;
+      }
     },
   },
   watch: {

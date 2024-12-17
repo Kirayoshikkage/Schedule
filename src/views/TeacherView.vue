@@ -48,7 +48,6 @@ export default {
         return acc;
       }, {});
     },
-    // TODO : рефакторинг
     formattedSchedule() {
       let schedule = this.teacherSchedule.reduce((acc, item) => {
         const key = "list_par" + item.title;

@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header :class="{ hide: showPreloader }" class="header">
     <div class="container">
       <div class="header__item">
         <h1 class="lead">Электронное расписание</h1>
@@ -15,7 +15,7 @@
           <MenuIcon />
         </a>
       </div>
-      <div v-if="newsList.length" class="header__item header__item_news">
+      <div class="header__item header__item_news">
         <swiper
           :modules="modules"
           :pagination="{ clickable: true }"
@@ -51,6 +51,7 @@
             </article>
           </swiper-slide>
         </swiper>
+        <BasePreloader :active="showPreloader" />
       </div>
       <teleport to="body">
         <VueFinalModal
@@ -84,6 +85,7 @@
 <script>
 import ThemeIcon from "./icons/ThemeIcon.vue";
 import MenuIcon from "./icons/MenuIcon.vue";
+import BasePreloader from "./BasePreloader.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination } from "swiper/modules";
 import { getNewsList } from "@/Api";
@@ -94,6 +96,7 @@ import "swiper/css/pagination";
 
 export default {
   components: {
+    BasePreloader,
     Swiper,
     SwiperSlide,
     ModalsContainer,
@@ -116,7 +119,37 @@ export default {
   },
   computed: {
     formattedNewList() {
-      return this.newsList.map((news) => {
+      const stubListItems = [
+        {
+          id: 1,
+          title: "Заголовок новости",
+          content:
+            "Описание новости которого здесь быть не должно , подождите немного и оно скоро исчезнет , если не исчезло , сообщите в техническую поддержку :)",
+          published_at: "17.12.2024",
+        },
+        {
+          id: 2,
+          title: "Заголовок новости",
+          content:
+            "Описание новости которого здесь быть не должно , подождите немного и оно скоро исчезнет , если не исчезло , сообщите в техническую поддержку :)",
+          published_at: "17.12.2024",
+        },
+        {
+          id: 3,
+          title: "Заголовок новости",
+          content:
+            "Описание новости которого здесь быть не должно , подождите немного и оно скоро исчезнет , если не исчезло , сообщите в техническую поддержку :)",
+          published_at: "17.12.2024",
+        },
+        {
+          id: 4,
+          title: "Заголовок новости",
+          content:
+            "Описание новости которого здесь быть не должно , подождите немного и оно скоро исчезнет , если не исчезло , сообщите в техническую поддержку :)",
+          published_at: "17.12.2024",
+        },
+      ];
+      const formattedListItems = this.newsList.map((news) => {
         let formattedPublishedAt = news.published_at.replace(
           /(\d{4})-(\d{2})-(\d{2})T.*/,
           "$3.$2.$1"
@@ -127,11 +160,16 @@ export default {
           published_at: formattedPublishedAt,
         };
       });
+
+      return this.newsList.length ? formattedListItems : stubListItems;
     },
     newsInfoItem() {
       return this.formattedNewList.filter((item) => {
         return item.id == this.newsInfoItemId;
       })[0];
+    },
+    showPreloader() {
+      return !this.newsList.length;
     },
   },
   mounted() {
@@ -167,7 +205,30 @@ export default {
   }
 
   .header__item_news {
+    position: relative;
     grid-column: 1 / 3;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: -7.5%;
+      right: 0;
+      bottom: 0;
+      left: -2.5%;
+      width: 105%;
+      height: 115%;
+      z-index: 10;
+      background-color: rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      visibility: hidden;
+      user-select: none;
+      transition: opacity var(--transition-duration);
+    }
+  }
+
+  &.hide .header__item_news::before {
+    opacity: 1;
+    visibility: visible;
   }
 
   .header__item_btns {
@@ -200,6 +261,16 @@ export default {
   .org {
     font-size: rem(18);
     font-weight: 400;
+  }
+
+  .preloader {
+    --size: 1.5;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    transform: translateX(-50%) translateY(-50%);
   }
 
   .swiper-wrapper {

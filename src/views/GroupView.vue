@@ -49,7 +49,6 @@ export default {
         return acc;
       }, {});
     },
-    // TODO : рефакторинг
     formattedSchedule() {
       let formatted = {};
       let sample = Object.keys(this.$options.DAYSWEEK).reduce((acc, item) => {
@@ -84,7 +83,7 @@ export default {
         return acc;
       }, sample);
 
-      // Сортирует последовательность уроков по index
+      // Сортирует последовательность уроков по index и добавляет время уроку
 
       for (let key in formatted) {
         formatted[key] = formatted[key]

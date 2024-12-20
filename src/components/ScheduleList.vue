@@ -8,19 +8,20 @@
       <thead>
         <tr class="schedule__line">
           <th class="schedule__cell schedule__cell_header">№</th>
-          <th class="schedule__cell schedule__cell_header">Время</th>
           <th class="schedule__cell schedule__cell_header">Урок</th>
           <th class="schedule__cell schedule__cell_header">Преподаватель</th>
           <th class="schedule__cell schedule__cell_header">Кабинет</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="lesson of day" :key="lesson.index" class="schedule__line">
-          <td class="schedule__cell">
+        <tr
+          v-for="lesson of day"
+          :key="lesson.index"
+          :class="{ schedule__line_change: lesson.has_changes }"
+          class="schedule__line"
+        >
+          <td class="schedule__cell schedule__cell_index">
             {{ lesson.index || "Поле не заполнено , уточните у диспетчера" }}
-          </td>
-          <td class="schedule__cell">
-            {{ lesson.time || "Поле не заполнено , уточните у диспетчера" }}
           </td>
           <td class="schedule__cell schedule__cell_subject">
             {{ lesson.subject || "Поле не заполнено , уточните у диспетчера" }}
@@ -29,7 +30,7 @@
           <td class="schedule__cell">
             {{ lesson.teacher || "Поле не заполнено , уточните у диспетчера" }}
           </td>
-          <td class="schedule__cell">
+          <td class="schedule__cell schedule__cell_classroom">
             {{
               lesson.classroom || "Поле не заполнено , уточните у диспетчера"
             }}
@@ -57,6 +58,10 @@ export default {
   border-collapse: collapse;
   margin: 0 0 2rem;
 
+  &__line_change {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
   &__cell {
     padding: 1rem 1.5rem;
     border-bottom: 1px solid var(--black);
@@ -68,7 +73,7 @@ export default {
   }
 
   &_adaptive {
-    @include medium {
+    @include small {
       thead {
         display: none;
       }
@@ -79,12 +84,21 @@ export default {
         justify-content: space-between;
         gap: 1rem;
         border-bottom: 1px solid var(--black);
-        padding: 1rem 0;
+        padding: 1rem 0.5rem;
       }
 
       .schedule__cell {
         border: none !important;
         padding: 0;
+
+        &_index {
+          order: -2;
+        }
+
+        &_classroom {
+          order: -1;
+          margin-right: auto;
+        }
 
         &_subject {
           flex: 1 1 100%;
@@ -97,6 +111,10 @@ export default {
 
 @include dark {
   .schedule {
+    &__line_change {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
     &__cell {
       border-bottom: 1px solid var(--gray);
 

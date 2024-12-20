@@ -37,17 +37,9 @@ export default {
     return {
       title: this.$route.params.id || "Фамилия И.О",
       teacherSchedule: [],
-      time: [],
     };
   },
   computed: {
-    formattedTime() {
-      return this.time.reduce((acc, item) => {
-        acc[item.id] = item.title;
-
-        return acc;
-      }, {});
-    },
     formattedSchedule() {
       let schedule = this.teacherSchedule.reduce((acc, item) => {
         const key = "list_par" + item.title;
@@ -98,16 +90,7 @@ export default {
       // Сортирует последовательность уроков по index
 
       for (let key in formatted) {
-        formatted[key] = formatted[key]
-          .sort((a, b) => a.index - b.index)
-          .map((item) => {
-            const time = this.formattedTime[item.index] || "-";
-
-            return {
-              time,
-              ...item,
-            };
-          });
+        formatted[key] = formatted[key].sort((a, b) => a.index - b.index);
       }
 
       return formatted;
@@ -121,7 +104,6 @@ export default {
       getTeacherSchedule(id)
         .then((response) => {
           this.teacherSchedule.push(...response);
-          this.time = response[0].time;
         })
         .catch((error) => {
           if (error == 404) {

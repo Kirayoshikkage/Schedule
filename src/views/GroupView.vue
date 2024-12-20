@@ -37,18 +37,10 @@ export default {
     return {
       title: "000",
       schedule: [],
-      time: [],
       id: 0,
     };
   },
   computed: {
-    formattedTime() {
-      return this.time.reduce((acc, item) => {
-        acc[item.id] = item.title;
-
-        return acc;
-      }, {});
-    },
     formattedSchedule() {
       let formatted = {};
       let sample = Object.keys(this.$options.DAYSWEEK).reduce((acc, item) => {
@@ -83,19 +75,10 @@ export default {
         return acc;
       }, sample);
 
-      // Сортирует последовательность уроков по index и добавляет время уроку
+      // Сортирует последовательность уроков по index
 
       for (let key in formatted) {
-        formatted[key] = formatted[key]
-          .sort((a, b) => a.index - b.index)
-          .map((item) => {
-            const time = this.formattedTime[item.index] || "-";
-
-            return {
-              time,
-              ...item,
-            };
-          });
+        formatted[key] = formatted[key].sort((a, b) => a.index - b.index);
       }
 
       // Объединяет смежные уроки
@@ -134,7 +117,6 @@ export default {
           const schedule = response["list_par" + response.title];
 
           this.title = response.title;
-          this.time = response.time;
           this.id = response.id;
           this.schedule.push(...schedule);
         })

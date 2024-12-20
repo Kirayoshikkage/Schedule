@@ -86,13 +86,10 @@ export async function getGroupSchedule(id) {
   return requestDefault(`/api/v2/zadach/${id}/`, (request, response) => {
     const schedule = response[`list_par${response.title}`];
 
-    return !response.title || !response.time || !schedule;
+    return !response.title || !schedule;
   });
 }
 
-export async function getFullScheduleList() {
-  return requestDefault(
-    "api/v2/zadach/",
-    (request, response) => !response.length
-  );
+export async function getCallSchedule() {
+  return requestDefault(`/api/v6/times/`);
 }

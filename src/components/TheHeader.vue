@@ -14,6 +14,9 @@
         <a href="menu.pdf#page=1" target="_blank" class="header__btn">
           <MenuIcon />
         </a>
+        <button @click="modalCallSchedule = true" class="header__btn">
+          <TimeTableIcon />
+        </button>
       </div>
       <div class="header__item header__item_news">
         <swiper
@@ -76,6 +79,32 @@
             <CloseIcon />
           </button>
         </VueFinalModal>
+        <VueFinalModal
+          v-model="modalCallSchedule"
+          :overlay-transition="'vfm-fade'"
+          :content-transition="'vfm-fade'"
+          class="modal-call-schedule"
+        >
+          <div>
+            <h3 class="subtitle">Основное расписание</h3>
+            <ul>
+              <li v-for="item of mainCallSchedule" :key="item.time">
+                {{ item.id }} | {{ item.time }}
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="subtitle">Расписание в субботу</h3>
+            <ul>
+              <li v-for="item of saturdayCallSchedule" :key="item.time">
+                {{ item.id - 10 }} | {{ item.time }}
+              </li>
+            </ul>
+          </div>
+          <button @click="modalCallSchedule = false" class="vfm__close">
+            <CloseIcon />
+          </button>
+        </VueFinalModal>
         <ModalsContainer />
       </teleport>
     </div>
@@ -85,10 +114,11 @@
 <script>
 import ThemeIcon from "./icons/ThemeIcon.vue";
 import MenuIcon from "./icons/MenuIcon.vue";
+import TimeTableIcon from "./icons/TimeTableIcon.vue";
 import BasePreloader from "./BasePreloader.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination } from "swiper/modules";
-import { getNewsList } from "@/Api";
+import { getNewsList, getCallSchedule } from "@/Api";
 import { ModalsContainer, VueFinalModal } from "vue-final-modal";
 import CloseIcon from "./icons/CloseIcon.vue";
 import "swiper/css";
@@ -103,6 +133,7 @@ export default {
     VueFinalModal,
     CloseIcon,
     ThemeIcon,
+    TimeTableIcon,
     MenuIcon,
   },
   inject: ["error", "toggleTheme"],
@@ -114,10 +145,18 @@ export default {
   data() {
     return {
       newsList: [],
+      callScheduleList: [],
+      modalCallSchedule: false,
       newsInfoItemId: undefined,
     };
   },
   computed: {
+    saturdayCallSchedule() {
+      return this.callScheduleList.filter(({ id }) => id > 10);
+    },
+    mainCallSchedule() {
+      return this.callScheduleList.filter(({ id }) => id <= 10);
+    },
     formattedNewList() {
       const stubListItems = [
         {
@@ -174,6 +213,8 @@ export default {
   },
   mounted() {
     this.loadNewsList();
+
+    this.loadCallSchedule();
   },
   methods: {
     loadNewsList() {
@@ -183,6 +224,15 @@ export default {
         })
         .catch((error) => {
           this.error(`${error} | Список новостей`);
+        });
+    },
+    loadCallSchedule() {
+      getCallSchedule()
+        .then((response) => {
+          this.callScheduleList = response;
+        })
+        .catch((error) => {
+          this.error(`${error} | Расписание звонков`);
         });
     },
     newsInfoModalHandler(flag) {
@@ -354,6 +404,22 @@ export default {
   overflow: auto;
 }
 
+.modal-call-schedule .vfm__content {
+  display: flex;
+  gap: 0 2rem;
+  max-height: 100%;
+  overflow: auto;
+}
+
+.modal-call-schedule .subtitle {
+  font-size: rem(21);
+}
+
+.modal-call-schedule li {
+  padding: 1rem 0;
+  border-bottom: rem(1) solid currentColor;
+}
+
 @include medium {
   .news-info-modal .vfm__content {
     max-width: 100%;
@@ -367,6 +433,15 @@ export default {
 
   .news-card__content {
     font-size: 0.8rem;
+  }
+
+  .modal-call-schedule .vfm__content {
+    flex-direction: column;
+  }
+
+  .modal-call-schedule li {
+    padding: 0.5rem 0;
+    font-size: rem(12);
   }
 }
 

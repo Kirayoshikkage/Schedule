@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="container">
-      <div class="footer__contacts">
+      <div class="footer__item">
         <a class="footer__link" href="tel:83835521544"
           >Телефон : 8 (383 55) 21 544</a
         >
@@ -9,12 +9,57 @@
           >Почта : ped_kar@edu54.ru</a
         >
       </div>
-      <address class="footer__address">
-        обл. Новосибирская , г. Карасук , ул. Фрунзе , д.89
-      </address>
+      <div class="footer__item">
+        <ul class="footer__socials">
+          <li>
+            <a
+              class="footer__link"
+              href="https://www.karasukpedcollege.ru/"
+              target="_blank"
+            >
+              <WebIcon />
+            </a>
+          </li>
+          <li>
+            <a
+              class="footer__link"
+              href="https://vk.com/club216662623"
+              target="_blank"
+            >
+              <VkIcon />
+            </a>
+          </li>
+          <li>
+            <a
+              class="footer__link telegram"
+              href="https://t.me/gapounsokpk"
+              target="_blank"
+            >
+              <TelegramIcon />
+            </a>
+          </li>
+        </ul>
+        <address class="footer__address">
+          обл. Новосибирская , г. Карасук , ул. Фрунзе , д.89
+        </address>
+      </div>
     </div>
   </footer>
 </template>
+
+<script>
+import WebIcon from "./icons/WebIcon.vue";
+import VkIcon from "./icons/VkIcon.vue";
+import TelegramIcon from "./icons/TelegramIcon.vue";
+
+export default {
+  components: {
+    WebIcon,
+    VkIcon,
+    TelegramIcon,
+  },
+};
+</script>
 
 <style lang="scss">
 .footer {
@@ -24,7 +69,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    gap: 2rem;
+    gap: 1rem 2rem;
 
     @include small {
       flex-direction: column;
@@ -33,14 +78,30 @@
     }
   }
 
-  &__contacts {
+  &__item {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
 
   &__link {
+    display: block;
     color: var(--black);
+  }
+
+  &__socials {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 0.5rem;
+
+    @include small {
+      justify-content: center;
+    }
+  }
+
+  .telegram svg {
+    transform: rotate(-30deg) skew(20deg, 0deg) translateX(4px);
   }
 }
 

@@ -53,6 +53,7 @@ export default {
             subject: "-",
             teacher: "-",
             classroom: "-",
+            stub: true,
           };
         });
 
@@ -61,15 +62,24 @@ export default {
         return acc;
       }, {});
 
-      // Сортирует по дням недели
+      // Сортирует по дням недели и объединяет смежные уроки
 
       formatted = this.schedule.reduce((acc, item) => {
         const day = this.$options.DAYSWEEK[item.day];
 
         if (day) {
           const index = item.index - 1;
+          const isStub = acc[day][index].stub;
 
-          acc[day][index] = item;
+          if (isStub) {
+            acc[day][index] = item;
+          }
+
+          if (!isStub) {
+            acc[day][index].classroom += ` | ${item.classroom}`;
+            acc[day][index].teacher += ` | ${item.teacher}`;
+            acc[day][index].subject += ` | ${item.subject}`;
+          }
         }
 
         return acc;
@@ -79,29 +89,6 @@ export default {
 
       for (let key in formatted) {
         formatted[key] = formatted[key].sort((a, b) => a.index - b.index);
-      }
-
-      // Объединяет смежные уроки
-
-      for (let key in formatted) {
-        formatted[key] = Object.values(
-          formatted[key].reduce((acc, lesson) => {
-            if (!acc[lesson.index]) {
-              acc[lesson.index] = { ...lesson };
-
-              return acc;
-            }
-
-            acc[lesson.index].classroom += ` | ${lesson.classroom}`;
-            acc[lesson.index].teacher += ` | ${lesson.teacher}`;
-
-            if (acc[lesson.index].subject !== lesson.subject) {
-              acc[lesson.index].subject += ` | ${lesson.subject}`;
-            }
-
-            return acc;
-          }, {})
-        );
       }
 
       return formatted;

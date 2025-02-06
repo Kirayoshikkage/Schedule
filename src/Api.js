@@ -2,7 +2,7 @@
 import router from "./router";
 
 const SETTINGS = {
-  URL: "http://back.karasuxr.beget.tech",
+  URL: "https://schedule-pedkar.store",
 };
 
 async function requestDefault(

@@ -11,9 +11,9 @@
         <button @click="toggleTheme" class="header__btn">
           <ThemeIcon />
         </button>
-        <a href="menu.pdf#page=1" target="_blank" class="header__btn">
+        <!-- <a href="menu.pdf#page=1" target="_blank" class="header__btn">
           <MenuIcon />
-        </a>
+        </a> -->
         <button @click="modalCallSchedule = true" class="header__btn">
           <TimeTableIcon />
         </button>
@@ -113,7 +113,7 @@
 
 <script>
 import ThemeIcon from "./icons/ThemeIcon.vue";
-import MenuIcon from "./icons/MenuIcon.vue";
+// import MenuIcon from "./icons/MenuIcon.vue";
 import TimeTableIcon from "./icons/TimeTableIcon.vue";
 import BasePreloader from "./BasePreloader.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -134,7 +134,7 @@ export default {
     CloseIcon,
     ThemeIcon,
     TimeTableIcon,
-    MenuIcon,
+    // MenuIcon
   },
   inject: ["error", "toggleTheme"],
   setup() {

@@ -1,4 +1,4 @@
-# Schedule
+# Schedule http://schedule.matvie1x.beget.tech/
 
 ## Установка проекта
 ```
